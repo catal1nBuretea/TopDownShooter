@@ -32,6 +32,9 @@ public class Enemy : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
+            // Linie adăugată: Anunță GameManager-ul că ai omorât un inamic
+            GameManager.instance.AddKill();
+
             Destroy(gameObject);
         }
     }
@@ -49,4 +52,5 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject); // Inamicul se distruge după ce lovește jucătorul
         }
     }
+
 }
