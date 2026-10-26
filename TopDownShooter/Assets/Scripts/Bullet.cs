@@ -4,13 +4,27 @@ public class Bullet : MonoBehaviour
 {
     public float speed = 10f;
     public Rigidbody2D rb;
+    public int damage = 1;
 
     void Start()
     {
-        // Glonțul se mișcă în sus față de rotația sa
         rb.linearVelocity = transform.up * speed;
-
-        // Distruge glonțul după 2 secunde ca să nu consumi memoria calculatorului
         Destroy(gameObject, 2f);
+    }
+
+    // Detectează când glonțul (care e trigger) atinge ceva
+    void OnTriggerEnter2D(Collider2D hitInfo)
+    {
+        Enemy enemy = hitInfo.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            enemy.TakeDamage(damage);
+        }
+
+        // Distruge glonțul când atinge ceva, excepție fiind jucătorul care a tras
+        if (!hitInfo.CompareTag("Player"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
