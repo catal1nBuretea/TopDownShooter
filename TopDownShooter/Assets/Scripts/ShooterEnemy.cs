@@ -29,6 +29,7 @@ public class ShooterEnemy : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.instance != null && GameManager.instance.isTimeFrozen) return;
         if (player == null) return;
 
         float distance = Vector2.Distance(transform.position, player.position);
@@ -47,6 +48,7 @@ public class ShooterEnemy : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameManager.instance != null && GameManager.instance.isTimeFrozen) return;
         if (player == null) return;
 
         // Rotește cercul cu fața spre jucător

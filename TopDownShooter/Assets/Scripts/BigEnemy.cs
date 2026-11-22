@@ -24,6 +24,7 @@ public class BigEnemy : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameManager.instance != null && GameManager.instance.isTimeFrozen) return;
         if (player != null)
         {
             Vector2 direction = (player.position - transform.position).normalized;

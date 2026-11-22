@@ -24,6 +24,7 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnEnemy()
     {
+        if (GameManager.instance != null && GameManager.instance.isTimeFrozen) return;
         float height = cam.orthographicSize;
         float width = height * cam.aspect;
 

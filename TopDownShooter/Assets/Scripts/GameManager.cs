@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
 
     public TMPro.TextMeshProUGUI scoreText; // Dacă folosești TextMeshPro, schimbă în: public TMPro.TextMeshProUGUI scoreText;
     public Slider comboBar;
+    [Header("Abilitati")]
+    public bool isTimeFrozen = false;
+    public bool autoFireUnlocked = false;
+    public bool timeFreezeUnlocked = false;
 
     void Awake()
     {
@@ -48,8 +52,10 @@ public class GameManager : MonoBehaviour
 
     public void AddKill(int points)
     {
-        // Adaugă scorul inamicului înmulțit cu multiplicatorul curent
         score += Mathf.RoundToInt(points * multiplier);
+
+        if (score >= 5000) autoFireUnlocked = true;
+        if (score >= 10000) timeFreezeUnlocked = true;
 
         killsForMultiplier++;
         if (killsForMultiplier >= 5)
@@ -61,7 +67,6 @@ public class GameManager : MonoBehaviour
         currentComboTime = maxComboTime;
         UpdateScoreUI();
     }
-
     void ResetMultiplier()
     {
         multiplier = 1.0f;

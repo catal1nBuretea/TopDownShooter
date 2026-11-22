@@ -5,14 +5,29 @@ public class PlayerShoot : MonoBehaviour
     public Transform firePoint;
     public GameObject bulletPrefab;
     public int bonusDamage = 0;
+    public float autoFireRate = 0.15f; // Intervalul dintre gloanțe când ții apăsat
+    private float nextFireTime = 0f;
 
     void Update()
     {
         if (Time.timeScale == 0f) return;
 
-        if (Input.GetButtonDown("Fire1"))
+        bool canAutoFire = GameManager.instance != null && GameManager.instance.autoFireUnlocked;
+
+        if (canAutoFire)
         {
-            Shoot();
+            if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
+            {
+                Shoot();
+                nextFireTime = Time.time + autoFireRate;
+            }
+        }
+        else
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                Shoot();
+            }
         }
     }
 
