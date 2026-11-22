@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
 
     public int score = 0;
     public float multiplier = 1.0f;
-    public int baseScorePerKill = 10;
 
     private int killsForMultiplier = 0;
     public float maxComboTime = 5f; // Cât timp ai la dispoziție să faci o nouă victimă
@@ -47,20 +46,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddKill()
+    public void AddKill(int points)
     {
-        // Adaugă scor pe baza multiplicatorului curent
-        score += Mathf.RoundToInt(baseScorePerKill * multiplier);
+        // Adaugă scorul inamicului înmulțit cu multiplicatorul curent
+        score += Mathf.RoundToInt(points * multiplier);
 
-        // Contorizează victimele pentru următorul nivel de multiplicator
         killsForMultiplier++;
         if (killsForMultiplier >= 5)
         {
             multiplier += 0.1f;
-            killsForMultiplier = 0; // O ia de la capăt pentru următoarele 5
+            killsForMultiplier = 0;
         }
 
-        // Reface bara de timp la maximum
         currentComboTime = maxComboTime;
         UpdateScoreUI();
     }

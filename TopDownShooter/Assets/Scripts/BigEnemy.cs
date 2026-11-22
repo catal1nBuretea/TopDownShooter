@@ -5,6 +5,7 @@ public class BigEnemy : MonoBehaviour
     public float speed = 1.5f;
     public Rigidbody2D rb;
     public int health = 5;
+    public int scoreValue = 30;
     public int damageToPlayer = 1;
 
     public GameObject smallEnemyPrefab;
@@ -37,7 +38,7 @@ public class BigEnemy : MonoBehaviour
         {
             if (GameManager.instance != null)
             {
-                GameManager.instance.AddKill();
+                GameManager.instance.AddKill(scoreValue);
             }
 
             if (smallEnemyPrefab != null)

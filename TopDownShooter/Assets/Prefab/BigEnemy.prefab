@@ -190,6 +190,7 @@ MonoBehaviour:
   speed: 1.5
   rb: {fileID: 6383286332827671301}
   health: 5
+  scoreValue: 20
   damageToPlayer: 1
   smallEnemyPrefab: {fileID: 5478119319626742837, guid: 8d95658e973259a46a60b315548dd7a5, type: 3}
   spawnCount: 3

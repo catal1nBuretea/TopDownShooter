@@ -8,7 +8,6 @@ public class UpgradeManager : MonoBehaviour
     public PlayerHealth playerHealth;
 
     public int nextUpgradeScore = 100;
-    public int scoreIncrement = 100;
 
     void Start()
     {
@@ -28,8 +27,14 @@ public class UpgradeManager : MonoBehaviour
 
     void OpenUpgradeMenu()
     {
-        scoreIncrement += 50;
-        nextUpgradeScore += scoreIncrement;
+        if (nextUpgradeScore == 100)
+        {
+            nextUpgradeScore = 250;
+        }
+        else
+        {
+            nextUpgradeScore += 250;
+        }
 
         if (upgradePanel != null)
         {

@@ -187,4 +187,5 @@ MonoBehaviour:
   speed: 5.5
   rb: {fileID: 5744458670824678822}
   health: 1
+  scoreValue: 5
   damageToPlayer: 1

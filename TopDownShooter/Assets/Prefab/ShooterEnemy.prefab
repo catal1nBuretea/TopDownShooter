@@ -176,3 +176,4 @@ MonoBehaviour:
   health: 3
   enemyBulletPrefab: {fileID: 3180360797025349774, guid: 64fcddb25a278074d8617aef891e2bc1, type: 3}
   fireRate: 2
+  scoreValue: 15

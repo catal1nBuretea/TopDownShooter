@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     private Transform player;
 
     public int health = 2; // Inamicul moare din 2 gloanțe
+    public int scoreValue = 10;
     public int damageToPlayer = 1; // Scade o viață jucătorului la impact
 
     void Start()
@@ -33,7 +34,7 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
         {
             // Linie adăugată: Anunță GameManager-ul că ai omorât un inamic
-            GameManager.instance.AddKill();
+            GameManager.instance.AddKill(scoreValue);
 
             Destroy(gameObject);
         }

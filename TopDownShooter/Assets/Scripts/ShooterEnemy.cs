@@ -11,6 +11,7 @@ public class ShooterEnemy : MonoBehaviour
     public GameObject enemyBulletPrefab;
     public float fireRate = 2f;
     private float fireTimer;
+    public int scoreValue = 20;
 
     private Transform player;
 
@@ -77,7 +78,7 @@ public class ShooterEnemy : MonoBehaviour
         {
             if (GameManager.instance != null)
             {
-                GameManager.instance.AddKill();
+                GameManager.instance.AddKill(scoreValue);
             }
             Destroy(gameObject);
         }
