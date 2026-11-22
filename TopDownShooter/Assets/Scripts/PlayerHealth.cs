@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 3;
-    private int currentHealth;
+    public int currentHealth;
 
     void Start()
     {
@@ -20,9 +20,15 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public void AddMaxHealth(int amount)
+    {
+        maxHealth += amount;
+        currentHealth = maxHealth;
+    }
+
     void Die()
     {
-        // Resetează nivelul când jucătorul rămâne fără viață
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
