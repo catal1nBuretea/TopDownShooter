@@ -14,6 +14,11 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D hitInfo)
     {
+        if (hitInfo.CompareTag("Player") || hitInfo.GetComponent<EnemyBullet>() != null)
+        {
+            return;
+        }
+
         Enemy basicEnemy = hitInfo.GetComponent<Enemy>();
         if (basicEnemy != null)
         {
@@ -26,9 +31,12 @@ public class Bullet : MonoBehaviour
             bigEnemy.TakeDamage(damage);
         }
 
-        if (!hitInfo.CompareTag("Player"))
+        ShooterEnemy shooterEnemy = hitInfo.GetComponent<ShooterEnemy>();
+        if (shooterEnemy != null)
         {
-            Destroy(gameObject);
+            shooterEnemy.TakeDamage(damage);
         }
+
+        Destroy(gameObject);
     }
 }

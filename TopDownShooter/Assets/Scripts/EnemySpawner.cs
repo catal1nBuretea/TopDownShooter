@@ -4,10 +4,14 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public GameObject bigEnemyPrefab;
-    [Range(0f, 1f)]
-    public float bigEnemyChance = 0.3f;
+    public GameObject shooterEnemyPrefab;
 
-    public float startDelay = 2f; // Pauza de la începutul jocului (în secunde)
+    [Range(0f, 1f)]
+    public float bigEnemyChance = 0.25f;
+    [Range(0f, 1f)]
+    public float shooterEnemyChance = 0.25f;
+
+    public float startDelay = 2f;
     public float spawnRate = 2f;
     public int enemiesPerSpawn = 3;
     private Camera cam;
@@ -30,9 +34,15 @@ public class EnemySpawner : MonoBehaviour
             Vector2 randomPosition = new Vector2(randomX, randomY);
 
             GameObject prefabToSpawn = enemyPrefab;
-            if (bigEnemyPrefab != null && Random.value < bigEnemyChance)
+            float roll = Random.value;
+
+            if (bigEnemyPrefab != null && roll < bigEnemyChance)
             {
                 prefabToSpawn = bigEnemyPrefab;
+            }
+            else if (shooterEnemyPrefab != null && roll < bigEnemyChance + shooterEnemyChance)
+            {
+                prefabToSpawn = shooterEnemyPrefab;
             }
 
             Instantiate(prefabToSpawn, randomPosition, Quaternion.identity);
