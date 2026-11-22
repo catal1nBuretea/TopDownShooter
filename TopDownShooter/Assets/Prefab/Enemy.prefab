@@ -136,6 +136,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   speed: 3
   rb: {fileID: 8065189020318493810}
+  health: 3
+  damageToPlayer: 1
 --- !u!60 &2359559672896690501
 PolygonCollider2D:
   m_ObjectHideFlags: 0

@@ -12,16 +12,20 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, 2f);
     }
 
-    // Detectează când glonțul (care e trigger) atinge ceva
     void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        Enemy enemy = hitInfo.GetComponent<Enemy>();
-        if (enemy != null)
+        Enemy basicEnemy = hitInfo.GetComponent<Enemy>();
+        if (basicEnemy != null)
         {
-            enemy.TakeDamage(damage);
+            basicEnemy.TakeDamage(damage);
         }
 
-        // Distruge glonțul când atinge ceva, excepție fiind jucătorul care a tras
+        BigEnemy bigEnemy = hitInfo.GetComponent<BigEnemy>();
+        if (bigEnemy != null)
+        {
+            bigEnemy.TakeDamage(damage);
+        }
+
         if (!hitInfo.CompareTag("Player"))
         {
             Destroy(gameObject);
