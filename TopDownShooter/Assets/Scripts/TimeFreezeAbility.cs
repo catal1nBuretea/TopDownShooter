@@ -74,6 +74,8 @@ public class TimeFreezeAbility : MonoBehaviour
         GameManager.instance.isTimeFrozen = true;
         freezeTimer = freezeDuration;
         cooldownTimer = cooldown;
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlaySFX(AudioManager.instance.freezeClip);
     }
 
     void UpdateUI()

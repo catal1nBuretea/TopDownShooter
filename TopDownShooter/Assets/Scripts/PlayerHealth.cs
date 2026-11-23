@@ -27,7 +27,14 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
+            if (AudioManager.instance != null)
+                AudioManager.instance.PlaySFX(AudioManager.instance.gameOverClip);
             Die();
+        }
+        else
+        {
+            if (AudioManager.instance != null)
+                AudioManager.instance.PlaySFX(AudioManager.instance.playerHitClip);
         }
     }
 

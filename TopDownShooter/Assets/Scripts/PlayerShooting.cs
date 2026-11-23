@@ -39,5 +39,7 @@ public class PlayerShoot : MonoBehaviour
         {
             bullet.damage += bonusDamage;
         }
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlaySFX(AudioManager.instance.shootClip);
     }
 }

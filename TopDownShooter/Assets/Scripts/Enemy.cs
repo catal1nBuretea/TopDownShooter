@@ -36,7 +36,8 @@ public class Enemy : MonoBehaviour
         {
             // Linie adăugată: Anunță GameManager-ul că ai omorât un inamic
             GameManager.instance.AddKill(scoreValue);
-
+            if (AudioManager.instance != null)
+                AudioManager.instance.PlaySFX(AudioManager.instance.enemyDeathClip);
             Destroy(gameObject);
         }
     }

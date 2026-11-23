@@ -72,5 +72,7 @@ public class UpgradeManager : MonoBehaviour
             upgradePanel.SetActive(false);
             Time.timeScale = 1f;
         }
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlaySFX(AudioManager.instance.upgradeClip);
     }
 }

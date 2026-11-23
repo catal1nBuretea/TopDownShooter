@@ -82,6 +82,8 @@ public class ShooterEnemy : MonoBehaviour
             {
                 GameManager.instance.AddKill(scoreValue);
             }
+            if (AudioManager.instance != null)
+                AudioManager.instance.PlaySFX(AudioManager.instance.enemyDeathClip);
             Destroy(gameObject);
         }
     }

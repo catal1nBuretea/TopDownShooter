@@ -50,7 +50,8 @@ public class BigEnemy : MonoBehaviour
                     Instantiate(smallEnemyPrefab, (Vector2)transform.position + offset, Quaternion.identity);
                 }
             }
-
+            if (AudioManager.instance != null)
+                AudioManager.instance.PlaySFX(AudioManager.instance.enemyDeathClip);
             Destroy(gameObject);
         }
     }
