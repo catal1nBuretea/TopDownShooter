@@ -4,21 +4,23 @@ public class BigEnemy : MonoBehaviour
 {
     public float speed = 1.5f;
     public Rigidbody2D rb;
-    public int health = 5;
-    public int scoreValue = 30;
-    public int damageToPlayer = 1;
-
-    public GameObject smallEnemyPrefab;
-    public int spawnCount = 2;
-
     private Transform player;
+
+    public int health = 6;
+    public int scoreValue = 30;
+    public int damageToPlayer = 2;
+    public GameObject deathEffectPrefab;
 
     void Start()
     {
-        GameObject playerObj = GameObject.Find("Player");
-        if (playerObj != null)
+        if (GameObject.Find("Player") != null)
         {
-            player = playerObj.transform;
+            player = GameObject.Find("Player").transform;
+        }
+
+        if (GameManager.instance != null)
+        {
+            health += GameManager.instance.GetBonusEnemyHealth() * 2;
         }
     }
 
@@ -37,21 +39,14 @@ public class BigEnemy : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            if (GameManager.instance != null)
-            {
-                GameManager.instance.AddKill(scoreValue);
-            }
-
-            if (smallEnemyPrefab != null)
-            {
-                for (int i = 0; i < spawnCount; i++)
-                {
-                    Vector2 offset = Random.insideUnitCircle * 0.5f;
-                    Instantiate(smallEnemyPrefab, (Vector2)transform.position + offset, Quaternion.identity);
-                }
-            }
+            GameManager.instance.AddKill(scoreValue);
             if (AudioManager.instance != null)
                 AudioManager.instance.PlaySFX(AudioManager.instance.enemyDeathClip);
+            if (deathEffectPrefab != null)
+            {
+                GameObject effect = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+                Destroy(effect, 2f);
+            }
             Destroy(gameObject);
         }
     }

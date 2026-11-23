@@ -6,6 +6,7 @@ public class ShooterEnemy : MonoBehaviour
     public float stoppingDistance = 5f; // Distanța la care se oprește față de tine
     public Rigidbody2D rb;
     public int health = 3;
+    public GameObject deathEffectPrefab;
 
     [Header("Atac")]
     public GameObject enemyBulletPrefab;
@@ -25,6 +26,16 @@ public class ShooterEnemy : MonoBehaviour
         {
             player = playerObj.transform;
         }
+        if (GameObject.Find("Player") != null)
+        {
+            player = GameObject.Find("Player").transform;
+        }
+
+        if (GameManager.instance != null)
+        {
+            health += GameManager.instance.GetBonusEnemyHealth();
+        }
+
     }
 
     void Update()
@@ -84,6 +95,11 @@ public class ShooterEnemy : MonoBehaviour
             }
             if (AudioManager.instance != null)
                 AudioManager.instance.PlaySFX(AudioManager.instance.enemyDeathClip);
+            if (deathEffectPrefab != null)
+            {
+                GameObject effect = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+                Destroy(effect, 2f);
+            }
             Destroy(gameObject);
         }
     }

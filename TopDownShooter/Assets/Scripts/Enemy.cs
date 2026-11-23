@@ -9,12 +9,18 @@ public class Enemy : MonoBehaviour
     public int health = 2; // Inamicul moare din 2 gloanțe
     public int scoreValue = 10;
     public int damageToPlayer = 1; // Scade o viață jucătorului la impact
+    public GameObject deathEffectPrefab;
 
     void Start()
     {
         if (GameObject.Find("Player") != null)
         {
             player = GameObject.Find("Player").transform;
+        }
+
+        if (GameManager.instance != null)
+        {
+            health += GameManager.instance.GetBonusEnemyHealth();
         }
     }
 
@@ -34,10 +40,14 @@ public class Enemy : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            // Linie adăugată: Anunță GameManager-ul că ai omorât un inamic
             GameManager.instance.AddKill(scoreValue);
             if (AudioManager.instance != null)
                 AudioManager.instance.PlaySFX(AudioManager.instance.enemyDeathClip);
+            if (deathEffectPrefab != null)
+            {
+                GameObject effect = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+                Destroy(effect, 2f);
+            }
             Destroy(gameObject);
         }
     }
@@ -55,5 +65,4 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject); // Inamicul se distruge după ce lovește jucătorul
         }
     }
-
 }

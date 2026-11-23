@@ -189,3 +189,4 @@ MonoBehaviour:
   health: 1
   scoreValue: 5
   damageToPlayer: 1
+  deathEffectPrefab: {fileID: 120410, guid: 6636b3078b0905e489f698a11b7a6b6b, type: 3}

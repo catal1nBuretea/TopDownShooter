@@ -18,6 +18,21 @@ public class GameManager : MonoBehaviour
     public bool isTimeFrozen = false;
     public bool autoFireUnlocked = false;
     public bool timeFreezeUnlocked = false;
+    [Header("Scalare Dificultate Inamici")]
+    public int[] enemyHealthThresholds = { 1000, 2500, 5000, 8000, 12000 };
+
+    public int GetBonusEnemyHealth()
+    {
+        int bonus = 0;
+        for (int i = 0; i < enemyHealthThresholds.Length; i++)
+        {
+            if (score >= enemyHealthThresholds[i])
+            {
+                bonus++;
+            }
+        }
+        return bonus;
+    }
 
     void Awake()
     {
