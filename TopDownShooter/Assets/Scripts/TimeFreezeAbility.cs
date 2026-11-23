@@ -1,16 +1,19 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class TimeFreezeAbility : MonoBehaviour
 {
     public PlayerMovement playerMovement;
-    public float freezeDuration = 4f; // Cât timp stau inamicii înghețați
-    public float cooldown = 15f;      // Timpul de reîncărcare al abilității
+    public float freezeDuration = 4f;
+    public float cooldown = 15f;
 
     private float freezeTimer = 0f;
     private float cooldownTimer = 0f;
 
-    public Text abilityStatusText; // Opțional: text UI pentru status/cooldown
+    [Header("UI Abilitate")]
+    public GameObject freezeUIContainer;
+    public TMP_Text abilityNameText;
+    public TMP_Text cooldownText;
 
     void Start()
     {
@@ -18,11 +21,24 @@ public class TimeFreezeAbility : MonoBehaviour
         {
             playerMovement = GetComponent<PlayerMovement>();
         }
+
+        if (freezeUIContainer != null)
+        {
+            freezeUIContainer.SetActive(false);
+        }
     }
 
     void Update()
     {
-        if (Time.timeScale == 0f || GameManager.instance == null) return;
+        if (GameManager.instance == null) return;
+
+        // Afișează UI-ul doar după ce abilitatea este deblocată (10.000 puncte)
+        if (freezeUIContainer != null)
+        {
+            freezeUIContainer.SetActive(GameManager.instance.timeFreezeUnlocked);
+        }
+
+        if (Time.timeScale == 0f || !GameManager.instance.timeFreezeUnlocked) return;
 
         // Gestionează durata înghețării
         if (GameManager.instance.isTimeFrozen)
@@ -40,8 +56,8 @@ public class TimeFreezeAbility : MonoBehaviour
             cooldownTimer -= Time.deltaTime;
         }
 
-        // Activare pe Click Dreapta (Mouse 1) la 10.000+ puncte și stamina plină
-        if (GameManager.instance.timeFreezeUnlocked && Input.GetMouseButtonDown(1))
+        // Activare pe Click Dreapta când nu e în cooldown și stamina e 100%
+        if (Input.GetMouseButtonDown(1))
         {
             if (!GameManager.instance.isTimeFrozen && cooldownTimer <= 0f && playerMovement != null && playerMovement.HasFullStamina())
             {
@@ -62,24 +78,31 @@ public class TimeFreezeAbility : MonoBehaviour
 
     void UpdateUI()
     {
-        if (abilityStatusText == null || GameManager.instance == null) return;
+        if (abilityNameText == null || cooldownText == null) return;
 
-        if (GameManager.instance.timeFreezeUnlocked)
+        if (GameManager.instance.isTimeFrozen)
         {
-            if (GameManager.instance.isTimeFrozen)
-                abilityStatusText.text = "FREEZE ACTIV: " + freezeTimer.ToString("F1") + "s";
-            else if (cooldownTimer > 0f)
-                abilityStatusText.text = "Freeze Cooldown: " + Mathf.CeilToInt(cooldownTimer) + "s";
-            else
-                abilityStatusText.text = "Freeze Pregatit (Click Dreapta - Necesita Stamina 100%)";
+            abilityNameText.text = "TIME FREEZE ACTIV";
+            abilityNameText.color = Color.cyan;
+
+            cooldownText.text = freezeTimer.ToString("F1") + "s";
+            cooldownText.color = Color.cyan;
         }
-        else if (GameManager.instance.autoFireUnlocked)
+        else if (cooldownTimer > 0f)
         {
-            abilityStatusText.text = "Auto-Fire Deblocat! (10.000 pct pt Freeze)";
+            abilityNameText.text = "TIME FREEZE";
+            abilityNameText.color = Color.white;
+
+            cooldownText.text = "CD: " + Mathf.CeilToInt(cooldownTimer) + "s";
+            cooldownText.color = new Color(1f, 0.35f, 0.35f);
         }
         else
         {
-            abilityStatusText.text = "";
+            bool hasStamina = playerMovement != null && playerMovement.HasFullStamina();
+            abilityNameText.text = hasStamina ? "TIME FREEZE [Click Dreapta]" : "TIME FREEZE (Stamina 100%)";
+            abilityNameText.color = hasStamina ? Color.white : Color.yellow;
+
+            cooldownText.text = "";
         }
     }
 }
